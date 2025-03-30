@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import useSWR, {mutate} from 'swr';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Grid2, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid2, TextField } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 // Icon for Add Customer button
