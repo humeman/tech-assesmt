@@ -110,17 +110,23 @@ const Home = () => {
                     event.preventDefault();
                     const formData = new FormData(event.currentTarget);
                     const formJson = Object.fromEntries(formData.entries());
-                    const res = await fetch('/api/customers', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(formJson),
-                    })
-                    if (!res.ok) {
+                    let res;
+                    try {
+                      res = await fetch('/api/customers', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formJson),
+                      });
+                      if (!res.ok) {
+                        throw new Error(`Failed to post: ${res.status}, ${await res.text()}`);
+                      }
+                    } catch (e) {
                       // We'd obviously want something a little more user friendly here,
                       // but given the scope of this assignment it does not seem necessary now.
-                      alert(`Failed to post: ${res.status}, ${await res.text()}`);
+                      alert(`Failed to post results.`);
+                      console.error(e);
                     }
                     // https://stackoverflow.com/a/61702840
                     mutate('/api/customers');
@@ -146,7 +152,7 @@ const Home = () => {
                   <TextField required fullWidth id="email" type="email" name="email" label="Email Address" sx={{ marginTop: 3 }}/>
                 </DialogContent>
                 <DialogActions sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 3 }}>
-                  <Button variant="text" sx={{ textTransform: "none" }} onClick={() => setShowAddCustomer(false)}>Cancel</Button>
+                  <Button variant="text" disabled={isSubmitting} sx={{ textTransform: "none" }} onClick={() => setShowAddCustomer(false)}>Cancel</Button>
                   <Button type="submit" disabled={isSubmitting} variant="contained" sx={{ marginLeft: 2, textTransform: "none" }}>Submit</Button>
                 </DialogActions>
             </Dialog>
